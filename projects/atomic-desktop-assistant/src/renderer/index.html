@@ -1,0 +1,58 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'self'">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Atomic</title>
+<style>
+:root{--bg:#050a14;--panel:#0a1426cc;--line:#16304f;--ice:#d6ecff;--dim:#7f9bbd;--blue:#2ea0ff;--cyan:#38d5ff;--amber:#ffb454;--bad:#ff6b6b;--ok:#3ee08f;color-scheme:dark}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{display:grid;grid-template-rows:56px 1fr;background:radial-gradient(ellipse at 50% 38%,#0d2347 0,#06101f 45%,var(--bg) 80%);color:var(--ice);font:15px/1.5 "Segoe UI",system-ui,sans-serif;overflow:hidden}
+header{display:flex;align-items:center;gap:18px;padding:0 22px;border-bottom:1px solid var(--line)}
+.logo{font-size:22px;letter-spacing:.32em;font-weight:300}.tag{font-size:11px;letter-spacing:.18em;color:var(--dim)}
+.sp{flex:1}.chip{border:1px solid var(--line);border-radius:20px;padding:3px 14px;font-size:12px;letter-spacing:.08em}
+.chip.ok{border-color:var(--ok);color:var(--ok)}.chip.no{border-color:var(--bad);color:var(--bad)}.chip.un{border-color:var(--amber);color:var(--amber)}
+.shell{display:grid;grid-template-columns:230px 1fr 320px;gap:0;min-height:0}
+nav{padding:16px 12px;display:flex;flex-direction:column;gap:6px}
+nav a{display:flex;gap:14px;align-items:center;padding:12px 16px;border-radius:10px;color:var(--dim);border:1px solid transparent}
+nav a.on{color:var(--blue);background:#0d2447;border-color:#1b4a85}nav b{font-weight:400;width:20px;text-align:center}
+main{display:flex;flex-direction:column;align-items:center;padding:14px 24px 18px;min-width:0;min-height:0}
+h1{margin:0;font-weight:400;font-size:44px}h1 em{font-style:normal;color:var(--blue)}.sub{color:var(--dim);font-size:18px;margin:0 0 4px}
+.stage{flex:1;min-height:150px;width:100%;display:flex;align-items:center;justify-content:center}
+svg.orb{height:100%;max-height:340px;aspect-ratio:1}
+.spin{transform-origin:200px 200px;animation:rot 26s linear infinite}.spin2{animation-duration:40s;animation-direction:reverse}
+.busy .spin{animation-duration:4s}@keyframes rot{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}}
+#log{width:min(760px,100%);max-height:150px;overflow:auto;display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+#log:empty{display:none}
+.m{padding:8px 13px;border:1px solid var(--line);border-radius:12px;background:var(--panel);white-space:pre-wrap;max-width:80%}.u{align-self:flex-end;border-color:#25598f}.e{border-color:var(--bad);color:#ffc9c9}
+.state{border:1px solid #1b4a85;border-radius:24px;padding:8px 34px;color:var(--ice);background:#0a1c38;margin-bottom:12px}
+form{width:min(900px,100%);display:flex;gap:10px;align-items:center;border:1px solid #1d5fa8;border-radius:28px;padding:8px 10px 8px 22px;background:#08142a;box-shadow:0 0 24px #1b6fd033}
+form i{color:var(--cyan);font-style:normal}input[type=text]{flex:1;background:none;border:0;color:var(--ice);font:inherit;font-size:17px;outline:0}
+.mic{width:46px;height:46px;border-radius:50%;border:1px solid #1d5fa8;background:#0d2447;color:var(--ice);cursor:not-allowed;opacity:.55}
+button.send{border:0;background:none;color:var(--blue);font:inherit;cursor:pointer;padding:0 10px}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.cards{width:min(900px,100%);display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.card{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:12px 14px}
+.card[disabled]{opacity:.45;cursor:not-allowed}.card b{display:block;font-weight:500}.card span{color:var(--dim);font-size:13px}
+aside{padding:16px 18px;overflow:auto;border-left:1px solid var(--line);background:#07101f99}
+h3{margin:0 0 12px;font-size:12px;letter-spacing:.16em;font-weight:500;color:var(--dim)}
+.act{display:flex;gap:12px;padding:10px 0}.dot{width:10px;height:10px;border-radius:50%;margin-top:7px;flex:none;background:var(--amber)}.dot.ok{background:var(--ok)}.dot.no{background:var(--bad)}
+.act b{display:block;font-weight:500}.act span{color:var(--dim);font-size:13px}
+.bar{height:3px;background:#12294a;border-radius:2px;margin:2px 0 10px}.bar i{display:block;height:100%;background:var(--blue);border-radius:2px}
+.row{display:flex;justify-content:space-between;font-size:14px}
+label{display:flex;gap:8px;font-size:13px;padding:2px 0}
+@media(max-width:900px){.shell{grid-template-columns:1fr}nav,aside{display:none}.cards{grid-template-columns:1fr 1fr}h1{font-size:32px}}
+</style></head><body>
+<header><span class="logo">ATOMIC</span><span class="tag">PERSONAL AI ASSISTANT</span><span class="sp"></span><span class="chip un" id="chip">CHECKING</span></header>
+<div class="shell">
+<nav><a class="on"><b>⌂</b>Home</a><a><b>☰</b>Conversations</a><a><b>⚡</b>Automations</a><a><b>▭</b>Devices</a><a><b>◫</b>Memory</a><a><b>⚙</b>Settings</a></nav>
+<main id="main"><h1>How can <em>I</em> help?</h1><p class="sub" id="sub">Type a command to begin.</p>
+<div class="stage"><svg class="orb" viewBox="0 0 400 400" aria-hidden="true"><defs><radialGradient id="g"><stop offset="0" stop-color="#ffe2a8"/><stop offset=".35" stop-color="#ffb454"/><stop offset="1" stop-color="#ffb45400"/></radialGradient><radialGradient id="s"><stop offset="0" stop-color="#2ea0ff33"/><stop offset="1" stop-color="#2ea0ff00"/></radialGradient></defs>
+<circle cx="200" cy="200" r="190" fill="none" stroke="#2ea0ff55" stroke-width="1"/><circle cx="200" cy="200" r="150" fill="url(#s)" stroke="#38d5ff" stroke-width="2"/><circle cx="200" cy="200" r="132" fill="none" stroke="#38d5ff66"/>
+<g class="spin"><ellipse cx="200" cy="200" rx="140" ry="62" fill="none" stroke="#ffb454" stroke-width="1.6"/><ellipse cx="200" cy="200" rx="140" ry="62" fill="none" stroke="#ffb454" stroke-width="1.6" transform="rotate(60 200 200)"/><ellipse cx="200" cy="200" rx="140" ry="62" fill="none" stroke="#ffb454" stroke-width="1.6" transform="rotate(120 200 200)"/><circle cx="340" cy="200" r="6" fill="#ffb454"/></g>
+<g class="spin spin2"><circle cx="200" cy="200" r="100" fill="none" stroke="#38d5ff55" stroke-dasharray="2 8"/><circle cx="300" cy="200" r="5" fill="#38d5ff"/></g>
+<circle cx="200" cy="200" r="48" fill="url(#g)"/></svg></div>
+<div id="log" aria-live="polite"></div><div class="state" id="state">Ready for text commands</div>
+<form id="f"><i>✦</i><input type="text" id="in" autocomplete="off" placeholder="Tell Atomic what to do..."><button class="send">Send</button><button type="button" class="mic" disabled title="Voice isn't wired into this build yet">🎙</button></form>
+<div class="cards"><button class="card" data-p="Open "><b>Open a website</b><span>Go to any site</span></button><button class="card" data-p="Set a timer for "><b>Set a timer</b><span>For any duration</span></button><button class="card" disabled><b>Find a file</b><span>Not available yet</span></button><button class="card" disabled><b>Start a focus session</b><span>Not available yet</span></button></div></main>
+<aside><h3>SYSTEM ACTIVITY</h3><div id="svc"></div><h3 style="margin-top:18px">PERMISSIONS</h3><div id="perms"></div><h3 style="margin-top:18px">ACTIVE TIMERS</h3><div id="tm"></div><h3 style="margin-top:18px">QUICK STATS</h3>
+<div class="row"><span>CPU</span><span id="cpu">–</span></div><div class="bar"><i id="cpub" style="width:0"></i></div><div class="row"><span>Memory</span><span id="mem">–</span></div><div class="bar"><i id="memb" style="width:0"></i></div></aside></div>
+<script src="renderer.js"></script></body></html>
