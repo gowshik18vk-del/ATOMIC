@@ -26,9 +26,7 @@ export function parseClock(s: string, now = new Date()): ClockResult {
   if (mer) {
     if (h < 1 || h > 12) return { ok: false, error: "That isn't a valid 12-hour time." };
     h = (h % 12) + (mer === "p" ? 12 : 0);
-  } else if (h >= 1 && h <= 12) {
-    return { ok: false, error: "Ambiguous: please say AM or PM." };
-  }
+  } else if (h >= 1 && h <= 12) return { ok: false, error: "Ambiguous: please say AM or PM." };
   const d = new Date(now);
   d.setHours(h === 24 ? 0 : h, min, 0, 0);
   if (/tomorrow/.test(t)) d.setDate(d.getDate() + 1);
