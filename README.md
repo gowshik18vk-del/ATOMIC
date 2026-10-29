@@ -1,16 +1,20 @@
-# Atomic Projects
+# Atomic
 
-A home for projects and experiments built under the Atomic name.
+A simple home for my Atomic projects.
 
 ## Projects
 
-- [StudyWithAtomic build prompt](studywithatomic-build-prompt.md) — product specification for a chapter-based study video platform.
-- [Atomic Desktop Assistant](projects/atomic-desktop-assistant/README.md) — Electron and TypeScript desktop assistant foundation.
+- **[Atomic Desktop Assistant](projects/atomic-desktop-assistant/README.md)** — a Windows desktop AI assistant built with Electron and TypeScript.
+- **[StudyWithAtomic build prompt](studywithatomic-build-prompt.md)** — the planning prompt for my study platform.
 
-## Repository layout
+## Quick start
+
+To run Atomic Desktop Assistant, open its project folder and follow the [setup guide](projects/atomic-desktop-assistant/README.md).
+
+## Repository structure
 
 ```text
-.
+ATOMIC/
 ├── README.md
 ├── studywithatomic-build-prompt.md
 └── projects/
@@ -18,9 +22,8 @@ A home for projects and experiments built under the Atomic name.
         ├── README.md
         ├── .env.example
         ├── package.json
-        ├── tsconfig.json
         ├── src/
         └── tests/
 ```
 
-Keep API credentials in a local `.env` file and never commit real keys. Each project documents its own setup and implementation status.
+Each project has its own instructions. Secrets, local settings, and build output should not be committed.
