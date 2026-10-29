@@ -11,10 +11,8 @@ export function parseDuration(s: string): number | null {
   }
   return found && total > 0 ? Math.round(total) : null;
 }
-
 export type ClockResult = { ok: true; date: Date } | { ok: false; error: string };
-
-/** Resolves a clock time ("6:45 PM", "6:30 tomorrow morning") in the local time zone. */
+/** Resolves a clock time in the local time zone. */
 export function parseClock(s: string, now = new Date()): ClockResult {
   const t = s.toLowerCase().trim();
   const m = t.match(/(\d{1,2})(?::(\d{2}))?\s*(a\.?m\.?|p\.?m\.?)?/);
