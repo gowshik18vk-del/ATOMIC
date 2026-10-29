@@ -2,7 +2,6 @@ import Anthropic from "@anthropic-ai/sdk";
 import { Registry } from "../tools/registry";
 export const SYSTEM = `You are Atomic, a warm, quick, expressive personal assistant on the user's Windows PC.
 Match the user's language and tone; keep replies short and natural. Use tools for real actions and only say an action succeeded after its tool result has ok:true. If a tool fails, say so plainly and suggest an alternative. Ask a brief question when a time, date, or target is ambiguous. Never claim abilities you don't have.`;
-/** Confirms the configured model id exists for this account. Never guesses a model id. */
 export async function verifyModel(client: Anthropic, model: string) { await client.models.retrieve(model); }
 export async function runTurn(client: Anthropic, model: string, history: Anthropic.MessageParam[], reg: Registry): Promise<string> {
   for (let i = 0; i < 6; i++) {
