@@ -1,38 +1,54 @@
 # Atomic Desktop Assistant
 
-A Windows-oriented desktop assistant foundation built with Electron, TypeScript, and Node.js. It provides a local desktop UI, Claude-powered tool calling, permission-gated actions, persisted timers, and helper functions for the ElevenLabs API.
+Atomic is an early-stage Windows desktop assistant built with **Electron**, **TypeScript**, and **Claude**. It has a chat interface, permission-controlled tools, timers, basic system stats, and helper functions for ElevenLabs.
 
-> **Status:** foundation build, not a complete personal-assistant product. Features listed under “Not implemented yet” are not available in this version.
+> **Status:** this is a foundation build, not a finished assistant. See [What's not ready yet](#whats-not-ready-yet).
 
-## Features in this build
+## What it can do
 
-- Electron window with renderer/preload/main-process separation.
-- Claude API integration with model ID verification.
-- Typed tool schemas and permission checks.
-- HTTPS website opening and launching apps listed in the local app registry.
-- Persistent timers, notifications, and timer management.
-- Text-note creation without silently overwriting existing notes.
-- Basic CPU/memory statistics.
-- ElevenLabs voice-list status helper.
-- Vitest tests for timer parsing, persistence, URL validation, permissions, and note safety.
+- Chat with Claude using an API key and a model ID available to your account.
+- Open valid HTTPS websites.
+- Launch applications that you explicitly add to a local app registry.
+- Create, list, check, and cancel timers.
+- Create text notes without overwriting an existing note.
+- Show basic CPU and memory usage.
+- Check ElevenLabs voice configuration.
+- Ask for permissions before using protected tools.
 
 ## Requirements
 
-- Windows 11 (the project is designed for Windows).
-- Node.js 20 or newer and npm.
-- An Anthropic API key and a model ID available to your account.
-- Optional: ElevenLabs API key and agent ID.
+- Windows 10/11
+- Node.js 20 or newer and npm
+- An Anthropic API key and a model ID available to your account
+- Optional: ElevenLabs API key and agent ID
 
-## Setup
+## Run it
 
-1. Install dependencies with `npm install`.
-2. Copy `.env.example` to `.env` and set the values you need: `ANTHROPIC_API_KEY`, `ATOMIC_CLAUDE_MODEL`, `ELEVENLABS_API_KEY`, and `ELEVENLABS_AGENT_ID`.
-3. Run `npm start`.
-4. Review the permission panel and grant only the permissions you need.
+1. Open a terminal in this folder.
+2. Install dependencies:
 
-Never commit your real `.env` file or paste API keys into source code, issues, screenshots, or logs.
+   ```bash
+   npm install
+   ```
 
-## Development commands
+3. Copy `.env.example` to `.env` and fill in the values you want to use:
+
+   ```env
+   ANTHROPIC_API_KEY=
+   ATOMIC_CLAUDE_MODEL=
+   ELEVENLABS_API_KEY=
+   ELEVENLABS_AGENT_ID=
+   ```
+
+4. Start Atomic:
+
+   ```bash
+   npm start
+   ```
+
+5. Review the permission panel and enable only the features you want.
+
+## Useful commands
 
 ```bash
 npm run typecheck
@@ -41,11 +57,11 @@ npm run build
 npm start
 ```
 
-The global shortcut registered by this build is **Ctrl+Alt+Space**.
+Press **Ctrl+Alt+Space** to bring the app to the front while it is running.
 
-## Local app registry
+## Allow an app to launch
 
-To enable `launch_app`, create an `apps.json` file in Electron's user-data directory. Map trusted app names to executable paths, for example:
+Atomic only launches apps explicitly listed in an `apps.json` file in Electron's user-data directory. Add an app name and its executable path, for example:
 
 ```json
 {
@@ -53,33 +69,30 @@ To enable `launch_app`, create an `apps.json` file in Electron's user-data direc
 }
 ```
 
-## Project structure
+Only add applications you trust.
 
-```text
-src/
-├── agent/       # Claude conversation/tool-call loop
-├── main/        # Electron main process and IPC handlers
-├── preload/     # Narrow renderer API via contextBridge
-├── renderer/    # HTML UI and renderer logic
-├── shared/      # Shared input schemas
-├── timers/      # Time parsing and persisted timer store
-├── tools/       # Tool registry, validation, and permission enforcement
-└── voice/       # ElevenLabs API helpers
-tests/           # Vitest test suite
-```
+## Project map
 
-## Not implemented yet
+| Path | Purpose |
+| --- | --- |
+| `src/main/` | Electron window, IPC handlers, and system integration |
+| `src/preload/` | Limited API exposed to the UI |
+| `src/renderer/` | Desktop interface |
+| `src/agent/` | Claude conversation and tool-call loop |
+| `src/tools/` | Tool definitions, input validation, and permission checks |
+| `src/timers/` | Timer parsing and storage |
+| `src/voice/` | ElevenLabs API helpers |
+| `src/shared/` | Shared input schemas |
+| `tests/` | Automated tests |
 
-This foundation does not yet include a complete voice-session UI, push-to-talk capture, wake-word detection, local file search/read, web search, focus sessions, persistent conversational memory, a full app-settings UI, alarm tones, or packaged installers.
+## What's not ready yet
 
-## Security notes
+This version does not have a complete voice-session interface, push-to-talk capture, wake-word detection, local file search, web search, focus sessions, persistent conversational memory, a full settings screen, alarm sounds, or packaged installers.
 
-- The renderer uses context isolation and disables Node integration.
-- IPC calls are restricted to the app's own file-based renderer.
-- Keep provider keys in local environment variables.
-- Review permissions before enabling tools that can affect your computer.
-- This is early-stage software; review and test it before relying on it for important tasks.
+## Security and privacy
 
-## License
-
-No license has been added yet. Choose one before redistributing this project.
+- Never commit your real `.env` file or paste API keys into source code.
+- Keep API credentials on your own machine.
+- Review permissions before enabling actions that affect your computer.
+- The app is early-stage software; review and test it before relying on it.
+- No license has been added yet. Choose a license before redistributing the project.
