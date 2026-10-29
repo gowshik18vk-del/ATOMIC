@@ -1,9 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-
 export interface TimerRecord { id: string; label: string; dueAt: string; createdAt: string; status: "active" | "cancelled" | "completed"; }
-
 export class TimerStore {
   private items: TimerRecord[] = [];
   constructor(private file: string) { this.load(); }
