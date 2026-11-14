@@ -1,36 +1,95 @@
 # API RUNNER
 
-A local-first API workspace for composing, executing, saving, and inspecting HTTP requests. The React/Vite interface talks to a separate loopback Node execution service so requests are not subject to browser CORS. The service only accepts HTTP(S), resolves and rejects private/reserved destinations, pins the validated address for the connection, disables redirects, enforces timeouts and response-size limits, and binds only to loopback.
+### A local-first workspace for building, sending, inspecting, and testing HTTP requests.
 
-## Requirements and setup
+Compose real API calls, configure authentication and headers, reuse environment variables, and inspect responses in a focused dark workspace. A small local Node.js executor handles outbound HTTP so browser CORS rules don’t block requests.
+
+## Quick start
+
+### Requirements
 
 - Node.js 20 or newer
-- `npm install`
-- Run `npm run dev:all`
-- Open `http://127.0.0.1:5173`.
+- npm (included with Node.js)
 
-For separate terminals, use `npm run server` and `npm run dev` as before.
+### Install and run
 
-Use the Send button to make a real request. The execution service listens at `127.0.0.1:8787`; do not expose it to a network. Browser data is stored in local storage on this device. Credentials are not sent to any hosted service.
+From a terminal:
 
-## Included
+```bash
+git clone https://github.com/gowshik18vk-del/ATOMIC.git
+cd ATOMIC/projects/api-runner
+npm install
+npm run dev:all
+```
 
-- HTTP methods, URL and query parameters, editable headers, Basic/Bearer/API key/custom-header auth, JSON/raw/urlencoded/XML bodies, timeout, cancellation, real response status/time/size/headers, JSON formatting, image preview, response download, and retry.
-- Saved requests, local request history, favorites, request duplication, environments and `{{variable}}` substitution, secret masking, import/export of API RUNNER JSON collections.
-- Status, elapsed-time, header, JSON-path and body-contains assertions using a constrained JSON assertion format (no user JavaScript evaluation).
-- cURL import/export and code snippets for fetch, Axios, and Python requests.
-- Keyboard shortcuts: Ctrl/Cmd+Enter sends; Ctrl/Cmd+S saves; Ctrl/Cmd+K focuses the URL field.
+Open **http://127.0.0.1:5173** in your browser. The first command downloads the project’s npm dependencies. `npm run dev:all` starts both the Vite interface and the local request executor.
 
-## Limitations and security
+To stop the app, focus the terminal and press **Ctrl+C**.
 
-Folders, OAuth authorization-code flows, multipart file upload, WebSockets, GraphQL-specific editing, OpenAPI import/export, environment export, arbitrary JavaScript tests, and advanced syntax-editor features are not implemented. HTML/XML/text responses are shown as text; images are previewed and other response types can be downloaded. The API key and auth inputs are masked in the UI but browser local storage is not encrypted; use a dedicated OS credential store before using this as a shared or managed workstation. The execution service blocks loopback, private, link-local, multicast, and reserved IP ranges and does not follow redirects. It does not provide a public proxy or bypass network policy. Review target authorization before sending requests.
+### Windows Command Prompt
 
-## Project
+The same commands work in Command Prompt:
 
-- `src/`: client application
-- `server.mjs`: loopback HTTP execution service
-- `server.test.mjs`: request destination and input security tests
+```cmd
+git clone https://github.com/gowshik18vk-del/ATOMIC.git
+cd ATOMIC\projects\api-runner
+npm install
+npm run dev:all
+```
 
-## Development and checks
+If Windows says `node` or `npm` is not recognized, install Node.js 20+ from [nodejs.org](https://nodejs.org/), close and reopen the terminal, then retry.
 
-`npm run dev`, `npm run server`, `npm test`, `npm run build`. No telemetry or external account is required. Contributions should include a focused change, reproducible steps, and tests for security-sensitive behavior.
+### Run the services separately
+
+If you prefer two terminals, start the executor in one:
+
+```bash
+npm run server
+```
+
+Then start the interface in a second terminal:
+
+```bash
+npm run dev
+```
+
+Open **http://127.0.0.1:5173**.
+
+## What’s included
+
+- HTTP methods, URL parameters, headers, Basic/Bearer/API key/custom-header authentication, and JSON/raw/form URL-encoded/XML request bodies.
+- Real response status, elapsed time, size, headers, formatted JSON, raw text, image preview, download, cancellation, timeout, and retry.
+- Saved requests, favorites, history, duplication, environment variables, and API RUNNER collection import/export.
+- Safe JSON assertions for status, elapsed time, headers, JSON paths, and body text. The app does not evaluate user-provided JavaScript.
+- cURL import/export and fetch, Axios, and Python requests snippets.
+- Keyboard shortcuts: Ctrl/Cmd+Enter sends; Ctrl/Cmd+S saves; Ctrl/Cmd+K focuses workspace search.
+
+## Development
+
+```bash
+npm run dev:all   # Start UI and executor together
+npm run dev       # Start only the Vite UI
+npm run server    # Start only the local executor
+npm run lint      # Lint source files
+npm run typecheck # TypeScript checks for the UI
+npm test          # Run executor and security tests
+npm run build     # Create the production frontend bundle in dist/
+```
+
+## Security and deployment
+
+The executor binds to `127.0.0.1:8787`, accepts only HTTP(S), blocks private/reserved destinations, pins DNS resolution, does not follow redirects, and limits request time and response size. Keep it local; do not expose it directly to the public internet. Browser data is stored in local storage and is not encrypted.
+
+The frontend alone can be hosted as static files, but API execution requires the executor too. A public deployment needs protected access and a secured backend; the local executor is not a public proxy.
+
+## Current limitations
+
+Folders, OAuth authorization-code flows, multipart file upload, WebSockets, GraphQL-specific editing, OpenAPI import/export, environment export, arbitrary JavaScript tests, and advanced syntax-editor features are not implemented. HTML/XML/text responses appear as text; images can be previewed and other responses can be downloaded.
+
+## Project files
+
+- `src/`: React/Vite application
+- `server.mjs`: local HTTP execution service
+- `dev.mjs`: one-command local startup helper
+- `server.test.mjs`: executor and destination-security tests
+- `.github/`: issue templates and CI workflow
