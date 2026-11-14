@@ -6,9 +6,10 @@ A local-first API workspace for composing, executing, saving, and inspecting HTT
 
 - Node.js 20 or newer
 - `npm install`
-- Terminal 1: `npm run server`
-- Terminal 2: `npm run dev`
-- Open the local Vite URL printed in the terminal.
+- Run `npm run dev:all`
+- Open `http://127.0.0.1:5173`.
+
+For separate terminals, use `npm run server` and `npm run dev` as before.
 
 Use the Send button to make a real request. The execution service listens at `127.0.0.1:8787`; do not expose it to a network. Browser data is stored in local storage on this device. Credentials are not sent to any hosted service.
 

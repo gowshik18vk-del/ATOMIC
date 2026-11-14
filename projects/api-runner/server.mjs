@@ -26,7 +26,7 @@ export async function resolvePublic(hostname) {
   const literal = net.isIP(hostname);
   const records = literal ? [{ address: hostname }] : await dns.lookup(hostname, { all: true, verbatim: true });
   if (!records.length || records.some(({ address }) => !isPublicAddress(address))) throw new Error('Destination resolves to a blocked private or reserved address.');
-  return records[0].address;
+  return (records.find(({ address }) => net.isIP(address) === 4) || records[0]).address;
 }
 
 const MAX_BODY = 5_000_000;
@@ -56,7 +56,7 @@ export async function handle(req, res) {
     const transport = url.protocol === 'https:' ? https : http;
     const start = performance.now();
     const result = await new Promise((resolve, reject) => {
-      const client = transport.request(url, { method, headers, timeout: Math.min(120000, Math.max(1000, Number(input.timeout) || 30000)), lookup: (_hostname, _opts, cb) => cb(null, address, net.isIP(address)), servername: net.isIP(url.hostname) ? undefined : url.hostname }, (response) => {
+      const client = transport.request(url, { method, headers, timeout: Math.min(120000, Math.max(1000, Number(input.timeout) || 30000)), autoSelectFamily: false, lookup: (_hostname, _opts, cb) => cb(null, address, net.isIP(address)), servername: net.isIP(url.hostname) ? undefined : url.hostname }, (response) => {
         const chunks = []; let size = 0;
         response.on('data', chunk => { size += chunk.length; if (size > MAX_BODY) { response.destroy(new Error('Response exceeds 5 MB limit.')); return; } chunks.push(chunk); });
         response.on('end', () => resolve({ status: response.statusCode, statusText: response.statusMessage, headers: response.headers, body: Buffer.concat(chunks).toString('base64'), size }));
