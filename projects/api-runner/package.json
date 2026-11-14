@@ -1,0 +1,9 @@
+{
+  "name": "api-runner",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "scripts": { "dev": "vite --host 127.0.0.1", "server": "node server.mjs", "build": "vite build", "test": "node --test", "lint": "eslint src server.mjs", "typecheck": "tsc --project tsconfig.json" },
+  "dependencies": { "@vitejs/plugin-react": "latest", "vite": "latest", "react": "latest", "react-dom": "latest", "lucide-react": "latest" },
+  "devDependencies": { "eslint": "latest", "typescript": "latest" }
+}
